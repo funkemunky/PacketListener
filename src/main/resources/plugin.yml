@@ -1,2 +1,5 @@
 name: PacketListener
-main: dev.brighten.
+description: Packet listener plugin made as proof of compentency.
+main: dev.brighten.pl.PacketListener
+version: ${project.version}
+author: funkemunky
