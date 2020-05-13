@@ -22,7 +22,7 @@ public class JoinListeners implements Listener {
         clistener.inject(event.getPlayer());
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onQuit(PlayerQuitEvent event) {
         clistener.uninject(event.getPlayer());
     }

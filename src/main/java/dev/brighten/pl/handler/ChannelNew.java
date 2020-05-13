@@ -14,53 +14,55 @@ import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static dev.brighten.pl.handler.Packet.Client.CHAT;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChannelNew extends ChannelListener {
 
-    private static Map<String, Channel> cachedChannels = new HashMap<>();
-
     @Override
     public void inject(Player player) {
-        Channel channel = getChannel(player);
+        ChannelListener.executor.execute(() -> {
+            Channel channel = getChannel(player);
 
-        Listen listen = (Listen) channel.pipeline().get(ChannelListener.handle);
+            if(channel == null) return;
 
-        if(listen == null) {
-            listen = new Listen(player);
+            Listen listen = (Listen) channel.pipeline().get(ChannelListener.handle);
 
-            ChannelHandlerContext context = channel.pipeline().context("packet_handler");
+            if(listen == null) {
+                System.out.println("injecting " + player.getName() + "...");
+                listen = new Listen(player);
 
-            if(context != null) {
+                if(channel.pipeline().get(ChannelListener.handle) != null) {
+                    channel.pipeline().remove(ChannelListener.handle);
+                }
                 channel.pipeline().addBefore("packet_handler", ChannelListener.handle, listen);
+                System.out.println("Injected!");
             }
-        }
+        });
     }
 
     @Override
     public void uninject(Player player) {
-        Channel channel = getChannel(player);
+        ChannelListener.executor.execute(() -> {
+            Channel channel = getChannel(player);
 
-        channel.pipeline().remove(ChannelListener.handle);
+            System.out.println("Uninjecting...");
+            channel.eventLoop().execute(() -> {
+                if(channel.pipeline().get(ChannelListener.handle) != null) {
+                    channel.pipeline().remove(ChannelListener.handle);
+                }
+            });
+        });
     }
 
     private Channel getChannel(Player player) {
-        return cachedChannels.computeIfAbsent(player.getUniqueId().toString(), key -> {
-            Channel channel = MinecraftReflection.getChannel(player);
-
-            cachedChannels.put(key, channel);
-
-            return channel;
-        });
+        return MinecraftReflection.getChannel(player);
     }
 
     @Override
     public Object onReceive(Player player, Object packet) {
         PacketReceiveEvent event;
-        Packet.Client type = Packet.Client.getByName(packet.getClass().getSimpleName());
+        Packet.Client type = Packet.Client.getByName(packet.getClass().getName());
         switch(type) {
             case CHAT:
                 event = new PacketReceiveEvent(player, type, new WrappedInChatPacket(packet, player));
@@ -77,7 +79,7 @@ public class ChannelNew extends ChannelListener {
     @Override
     public Object onSend(Player player, Object packet) {
         PacketSendEvent event;
-        Packet.Server type = Packet.Server.getByName(packet.getClass().getSimpleName());
+        Packet.Server type = Packet.Server.getByName(packet.getClass().getName());
         switch(type) {
             case CHAT:
                 event = new PacketSendEvent(player, type, new WrappedOutChatPacket(packet, player));

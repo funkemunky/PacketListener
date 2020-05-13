@@ -15,7 +15,7 @@ public class WrappedOutChatPacket extends Wrapper {
 
     private static WrappedClass wrapped = new WrappedClass(Packet.Server.CHAT);
     private static WrappedConstructor noargsCon = wrapped.getConstructor();
-    private static WrappedField fieldComponents = wrapped.getFieldByType(BaseComponent.class, 0),
+    private static WrappedField fieldComponents = wrapped.getFieldByType(BaseComponent[].class, 0),
             fieldIChatComp = wrapped.getFieldByType(MinecraftReflection.iChatComponent.getParent(), 0);
 
     public WrappedOutChatPacket() {

@@ -39,7 +39,7 @@ public class MinecraftReflection {
     public static <T> T getChannel(Player player) {
         Object entityPlayer = CraftReflection.getEntityPlayer(player);
 
-        return getChannel(
+        return fieldChannel.get(
                 getNetworkManager(
                         getPlayerConnection(entityPlayer)));
     }

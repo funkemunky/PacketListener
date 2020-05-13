@@ -15,11 +15,14 @@ public class Packet {
         UNKNOWN("Unknown");
 
         private static String path = "net.minecraft.server." + Reflection.VERSION + ".PacketPlayIn";
-        @Getter
         private final String name;
 
+        public String getName() {
+            return path + name;
+        }
+
         public static Client getByName(String name) {
-            return Arrays.stream(values()).filter(val -> val.name.equals(name)).findFirst().orElse(UNKNOWN);
+            return Arrays.stream(values()).filter(val -> val.getName().equals(name)).findFirst().orElse(UNKNOWN);
         }
     }
 
@@ -30,11 +33,14 @@ public class Packet {
         UNKNOWN("Unknown");
 
         private static String path = "net.minecraft.server." + Reflection.VERSION + ".PacketPlayOut";
-        @Getter
         private final String name;
 
+        public String getName() {
+            return path + name;
+        }
+
         public static Server getByName(String name) {
-            return Arrays.stream(values()).filter(val -> val.name.equals(name)).findFirst().orElse(UNKNOWN);
+            return Arrays.stream(values()).filter(val -> val.getName().equals(name)).findFirst().orElse(UNKNOWN);
         }
     }
 }

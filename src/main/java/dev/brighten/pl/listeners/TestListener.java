@@ -5,6 +5,7 @@ import dev.brighten.pl.events.PacketReceiveEvent;
 import dev.brighten.pl.events.PacketSendEvent;
 import dev.brighten.pl.handler.wrappers.in.WrappedInChatPacket;
 import dev.brighten.pl.handler.wrappers.out.WrappedOutChatPacket;
+import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
