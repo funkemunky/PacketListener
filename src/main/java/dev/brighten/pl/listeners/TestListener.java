@@ -24,9 +24,11 @@ public class TestListener implements Listener {
         if(event.getPacket() instanceof WrappedOutChatPacket) {
             WrappedOutChatPacket wrapper = (WrappedOutChatPacket) event.getPacket();
 
-            wrapper.component.addExtra("Sent");
+            if(wrapper.component.getText().contains("Arrived")) {
+                wrapper.component.addExtra("Sent");
 
-            wrapper.updateObject();
+                wrapper.updateObject();
+            }
         }
     }
 }
