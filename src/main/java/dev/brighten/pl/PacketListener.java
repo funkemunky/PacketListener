@@ -1,5 +1,6 @@
 package dev.brighten.pl;
 
+import dev.brighten.pl.handler.ChannelListener;
 import dev.brighten.pl.listeners.JoinListeners;
 import dev.brighten.pl.listeners.TestListener;
 import org.bukkit.Bukkit;
@@ -29,6 +30,9 @@ public class PacketListener extends JavaPlugin {
 
         System.out.println("Unregistering listeners...");
         HandlerList.unregisterAll(this);
+
+        System.out.println("Shutting down executors...");
+        ChannelListener.executor.shutdown();
 
         System.out.println("Removing instances...");
         INSTANCE = null;
