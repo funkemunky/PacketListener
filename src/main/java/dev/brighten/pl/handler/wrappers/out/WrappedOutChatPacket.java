@@ -35,7 +35,8 @@ public class WrappedOutChatPacket extends Wrapper {
         if(components != null) {
             component = new TextComponent(components);
         } else {
-            component = new TextComponent(CraftReflection.getMessageFromComp(fieldIChatComp.get(getObject())));
+            component = new TextComponent(CraftReflection.getMessageFromComp(fieldIChatComp.get(getObject()),
+                    "WHITE"));
         }
     }
 

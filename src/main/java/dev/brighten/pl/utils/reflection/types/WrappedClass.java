@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class WrappedClass {
     @Getter
-    private final Class<?> parent;
+    private final Class parent;
 
     @SneakyThrows
     public WrappedClass(String name) {
@@ -46,6 +46,10 @@ public class WrappedClass {
                         && (params.length == 0 || MiscUtils.isArrayEqual(method.getParameterTypes(), params)))
                 .findFirst()
                 .orElseThrow(NullPointerException::new));
+    }
+
+    public Enum getEnum(String name) {
+        return Enum.valueOf(this.parent, name);
     }
 
     public List<WrappedMethod> getMethods() {

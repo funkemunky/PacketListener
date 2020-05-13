@@ -16,13 +16,13 @@ public class CraftReflection {
 
     //static methods
     private static WrappedMethod fromComponent = craftChatMessage.getMethodByName("fromComponent",
-            MinecraftReflection.iChatComponent.getParent());
+            MinecraftReflection.iChatComponent.getParent(), MinecraftReflection.enumChatFormat.getParent());
 
     public static <T> T getEntityPlayer(Player player) {
         return entityPlayerInstance.invoke(player);
     }
 
-    public static String getMessageFromComp(Object ichatcomp) {
-        return fromComponent.invoke(null, ichatcomp);
+    public static String getMessageFromComp(Object ichatcomp, String defaultColor) {
+        return fromComponent.invoke(null, ichatcomp, MinecraftReflection.enumChatFormat.getEnum(defaultColor));
     }
 }

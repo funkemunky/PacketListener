@@ -1,7 +1,5 @@
 package dev.brighten.pl.utils;
 
-import java.util.List;
-
 public class MiscUtils {
 
     public static boolean isArrayEqual(Object[] arrayOne, Object[] arrayTwo) {

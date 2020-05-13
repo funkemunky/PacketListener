@@ -1,7 +1,6 @@
 package dev.brighten.pl.handler;
 
 import dev.brighten.pl.utils.reflection.Reflection;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;

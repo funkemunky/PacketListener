@@ -14,9 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ChannelNew extends ChannelListener {
 
     @Override
@@ -29,14 +26,12 @@ public class ChannelNew extends ChannelListener {
             Listen listen = (Listen) channel.pipeline().get(ChannelListener.handle);
 
             if(listen == null) {
-                System.out.println("injecting " + player.getName() + "...");
                 listen = new Listen(player);
 
                 if(channel.pipeline().get(ChannelListener.handle) != null) {
                     channel.pipeline().remove(ChannelListener.handle);
                 }
                 channel.pipeline().addBefore("packet_handler", ChannelListener.handle, listen);
-                System.out.println("Injected!");
             }
         });
     }
@@ -46,7 +41,6 @@ public class ChannelNew extends ChannelListener {
         ChannelListener.executor.execute(() -> {
             Channel channel = getChannel(player);
 
-            System.out.println("Uninjecting...");
             channel.eventLoop().execute(() -> {
                 if(channel.pipeline().get(ChannelListener.handle) != null) {
                     channel.pipeline().remove(ChannelListener.handle);

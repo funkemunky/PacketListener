@@ -2,13 +2,8 @@ package dev.brighten.pl.handler.wrappers.misc;
 
 import dev.brighten.pl.handler.wrappers.Wrapper;
 import dev.brighten.pl.utils.reflection.types.WrappedClass;
-import dev.brighten.pl.utils.reflection.types.WrappedField;
-import dev.brighten.pl.utils.reflection.types.WrappedMethod;
 import lombok.Getter;
 import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class GeneralWrapper extends Wrapper {
 

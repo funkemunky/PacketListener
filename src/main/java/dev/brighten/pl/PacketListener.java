@@ -1,6 +1,5 @@
 package dev.brighten.pl;
 
-import dev.brighten.pl.handler.ChannelListener;
 import dev.brighten.pl.listeners.JoinListeners;
 import dev.brighten.pl.listeners.TestListener;
 import org.bukkit.Bukkit;

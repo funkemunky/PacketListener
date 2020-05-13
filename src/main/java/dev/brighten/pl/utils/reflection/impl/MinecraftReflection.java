@@ -13,7 +13,8 @@ public class MinecraftReflection {
             entityPlayer =  Reflection.getNMSClass("EntityPlayer"),
             networkManager = Reflection.getNMSClass("NetworkManager"),
             iChatComponent = Reflection.getNMSClass("IChatBaseComponent"),
-            channel = Reflection.getMinecraftUtil("io.netty.channel.Channel");
+            channel = Reflection.getMinecraftUtil("io.netty.channel.Channel"),
+            enumChatFormat = Reflection.getNMSClass("EnumChatFormat");
 
     //Fields to grab from EntityPlayer
     private static WrappedField fieldPlayerConn = entityPlayer.getFieldByType(playerConnection.getParent(), 0),
