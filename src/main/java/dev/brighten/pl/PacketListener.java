@@ -1,8 +1,10 @@
 package dev.brighten.pl;
 
 import dev.brighten.pl.handler.ChannelListener;
+import dev.brighten.pl.handler.Packet;
 import dev.brighten.pl.listeners.JoinListeners;
-import dev.brighten.pl.listeners.TestListener;
+import dev.brighten.pl.processor.PacketProcessor;
+import dev.brighten.pl.test.TestListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.HandlerList;
@@ -11,10 +13,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class PacketListener extends JavaPlugin {
 
     public static PacketListener INSTANCE;
+    public PacketProcessor packetProcessor;
 
     public void onEnable() {
         System.out.println("Starting packet listener...");
         INSTANCE = this;
+
+        System.out.println("Initializing packet processor...");
+        packetProcessor = new PacketProcessor();
 
         registerListeners();
 
@@ -31,11 +37,15 @@ public class PacketListener extends JavaPlugin {
         System.out.println("Unregistering listeners...");
         HandlerList.unregisterAll(this);
 
+        System.out.println("Shutting down packet processor...");
+        packetProcessor.shutdown();
+        packetProcessor = null;
+
         System.out.println("Shutting down executors...");
         ChannelListener.executor.shutdown();
 
         System.out.println("Removing instances...");
-        INSTANCE = null;
+        INSTANCE = null; //Nullifying instance to prevent memory leaks.
 
         System.out.println("Disabled.");
     }
@@ -43,7 +53,7 @@ public class PacketListener extends JavaPlugin {
     private void registerListeners() {
         System.out.println("Registering listeners...");
         Bukkit.getPluginManager().registerEvents(new JoinListeners(), this);
-        Bukkit.getPluginManager().registerEvents(new TestListener(), this);
+        new TestListener();
     }
 
     public void debug(String message) {

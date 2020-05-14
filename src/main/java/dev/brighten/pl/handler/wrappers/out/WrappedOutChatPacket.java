@@ -2,6 +2,7 @@ package dev.brighten.pl.handler.wrappers.out;
 
 import dev.brighten.pl.handler.Packet;
 import dev.brighten.pl.handler.wrappers.Wrapper;
+import dev.brighten.pl.utils.reflection.Reflection;
 import dev.brighten.pl.utils.reflection.impl.CraftReflection;
 import dev.brighten.pl.utils.reflection.impl.MinecraftReflection;
 import dev.brighten.pl.utils.reflection.types.WrappedClass;
@@ -13,7 +14,7 @@ import org.bukkit.entity.Player;
 
 public class WrappedOutChatPacket extends Wrapper {
 
-    private static WrappedClass wrapped = new WrappedClass(Packet.Server.CHAT);
+    private static WrappedClass wrapped = Reflection.getNMSClass(Packet.Server.CHAT);
     private static WrappedConstructor noargsCon = wrapped.getConstructor();
     private static WrappedField fieldComponents = wrapped.getFieldByType(BaseComponent[].class, 0),
             fieldIChatComp = wrapped.getFieldByType(MinecraftReflection.iChatComponent.getParent(), 0);

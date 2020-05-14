@@ -1,7 +1,7 @@
 package dev.brighten.pl.handler;
 
-import dev.brighten.pl.events.PacketReceiveEvent;
-import dev.brighten.pl.events.PacketSendEvent;
+import dev.brighten.pl.PacketListener;
+import dev.brighten.pl.handler.wrappers.Wrapper;
 import dev.brighten.pl.handler.wrappers.in.WrappedInChatPacket;
 import dev.brighten.pl.handler.wrappers.misc.GeneralWrapper;
 import dev.brighten.pl.handler.wrappers.out.WrappedOutChatPacket;
@@ -55,36 +55,40 @@ public class ChannelNew extends ChannelListener {
 
     @Override
     public Object onReceive(Player player, Object packet) {
-        PacketReceiveEvent event;
-        Packet.Client type = Packet.Client.getByName(packet.getClass().getName());
+        String type = packet.getClass().getSimpleName();
+        Wrapper wrapped;
+
         switch(type) {
-            case CHAT:
-                event = new PacketReceiveEvent(player, type, new WrappedInChatPacket(packet, player));
+            case Packet.Client.CHAT:
+                wrapped = new WrappedInChatPacket(packet, player);
                 break;
             default:
-                event = new PacketReceiveEvent(player, type, new GeneralWrapper(packet));
+                wrapped = new GeneralWrapper(packet);
                 break;
         }
-        Bukkit.getPluginManager().callEvent(event);
 
-        return event.isCancelled() ? null : event.getPacket().getObject();
+        boolean cancelled = PacketListener.INSTANCE.packetProcessor.call(wrapped, type);
+
+        return cancelled ? null : wrapped.getObject();
     }
 
     @Override
     public Object onSend(Player player, Object packet) {
-        PacketSendEvent event;
-        Packet.Server type = Packet.Server.getByName(packet.getClass().getName());
+        String type = packet.getClass().getSimpleName();
+        Wrapper wrapped;
+
         switch(type) {
-            case CHAT:
-                event = new PacketSendEvent(player, type, new WrappedOutChatPacket(packet, player));
+            case Packet.Server.CHAT:
+                wrapped = new WrappedOutChatPacket(packet, player);
                 break;
             default:
-                event = new PacketSendEvent(player, type, new GeneralWrapper(packet));
+                wrapped = new GeneralWrapper(packet);
                 break;
         }
-        Bukkit.getPluginManager().callEvent(event);
 
-        return event.isCancelled() ? null : event.getPacket().getObject();
+        boolean cancelled = PacketListener.INSTANCE.packetProcessor.call(wrapped, type);
+
+        return cancelled ? null : wrapped.getObject();
     }
 
     @RequiredArgsConstructor

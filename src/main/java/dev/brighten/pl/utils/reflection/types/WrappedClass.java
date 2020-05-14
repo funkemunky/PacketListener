@@ -23,14 +23,6 @@ public class WrappedClass {
     public WrappedClass(String name) {
         parent = Class.forName(name);
     }
-
-    public WrappedClass(Packet.Client packet) {
-        this(packet.getName());
-    }
-
-    public WrappedClass(Packet.Server packet) {
-        this(packet.getName());
-    }
     //Used to grab method by its name and parameters.
     @SneakyThrows
     public WrappedMethod getMethodByName(String name, Class<?>... params) {

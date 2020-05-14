@@ -2,6 +2,7 @@ package dev.brighten.pl.handler.wrappers.in;
 
 import dev.brighten.pl.handler.Packet;
 import dev.brighten.pl.handler.wrappers.Wrapper;
+import dev.brighten.pl.utils.reflection.Reflection;
 import dev.brighten.pl.utils.reflection.types.WrappedClass;
 import dev.brighten.pl.utils.reflection.types.WrappedConstructor;
 import dev.brighten.pl.utils.reflection.types.WrappedField;
@@ -13,7 +14,7 @@ import org.bukkit.entity.Player;
 @Setter
 public class WrappedInChatPacket extends Wrapper {
 
-    private static WrappedClass wrappedClass = new WrappedClass(Packet.Client.CHAT);
+    private static WrappedClass wrappedClass = Reflection.getNMSClass(Packet.Client.CHAT);
     private static WrappedConstructor noArgsConst = wrappedClass.getConstructor();
     private static WrappedField messageField = wrappedClass.getFieldByType(String.class, 0);
 

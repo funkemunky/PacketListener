@@ -11,6 +11,10 @@ public class GeneralWrapper extends Wrapper {
         super(object);
     }
 
+    public GeneralWrapper(Object object, Player player) {
+        super(object, player);
+    }
+
     @Override
     public void updateObject() {
 
